@@ -6,22 +6,24 @@ class Solution:
         pacific = set()
         atlantic = set()
 
-        def dfs(row, col, visited, previousHeight):
+        def dfs(r, c, visited, previousHeight):
             if (
-                (row, col) in visited   # already visited
-                or row < 0  # out of bound conditions
-                or col < 0
-                or row == rows
-                or col == cols
-                or not(heights[row][col] >= previousHeight) # current value is not equal or greater than the previous value
+                (r, c) in visited  # already visited
+                or r < 0  # out of bound conditions
+                or c < 0
+                or r == rows
+                or c == cols
+                or not (
+                    heights[r][c] >= previousHeight
+                )  # current value is not equal or greater than the previous value
             ):
                 return
             # add to visited nodes and dfs adjacent nodes
-            visited.add((row, col))
-            dfs(row + 1, col, visited, heights[row][col])
-            dfs(row - 1, col, visited, heights[row][col])
-            dfs(row, col + 1, visited, heights[row][col])
-            dfs(row, col - 1, visited, heights[row][col])
+            visited.add((r, c))
+            dfs(r + 1, c, visited, heights[r][c])
+            dfs(r - 1, c, visited, heights[r][c])
+            dfs(r, c + 1, visited, heights[r][c])
+            dfs(r, c - 1, visited, heights[r][c])
 
         # loop through first row and last row
         for n in range(rows):
@@ -34,12 +36,7 @@ class Solution:
             dfs(rows - 1, n, atlantic, heights[rows - 1][n])
 
         # check which values are in both Pacific and Atlantic sets and append to the result
-        result = []
-        for row in range(rows):
-            for col in range(cols):
-                if (row, col) in pacific and (row, col) in atlantic:
-                    result.append([row, col])
-        return result
+        return pacific.intersection(atlantic)
 
 
 test_value = [
