@@ -6,11 +6,12 @@ class Node:
         self.neighbors = neighbors if neighbors is not None else []
 """
 
+
 class Solution:
     def cloneGraph(self, node):
-        
+
         hashmap = {}
-        
+
         def dfs(node):
             if node in hashmap:
                 return hashmap[node]
@@ -19,5 +20,5 @@ class Solution:
             for neighbor in node.neighbors:
                 copy.neighbors.append(dfs(neighbor))
             return copy
-            
+
         return dfs(node) if node else None
