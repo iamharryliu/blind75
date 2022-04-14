@@ -1,1 +1,11 @@
-notes
+Top Coding Interview Concepts
+-heaps
+    -top O(n)
+    -insert O(logn)
+    -remove O(logn)
+    -heapify O(n)
+-sliding window
+-binary search
+-bfs & dfs (use for trees and graphs)
+-recursion
+-hashmaps
