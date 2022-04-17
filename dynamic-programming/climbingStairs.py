@@ -8,13 +8,12 @@ class Solution:
         if n == 2:
             return 2
 
-        # setup fib
-        two_step_before = 1
+        two_steps_before = 1
         one_step_before = 2
         all_ways = 0
-        for i in range(2, n):
-            all_ways = one_step_before + two_step_before
-            two_step_before = one_step_before
+        for _ in range(2, n):
+            all_ways = one_step_before + two_steps_before
+            two_steps_before = one_step_before
             one_step_before = all_ways
 
         return all_ways
