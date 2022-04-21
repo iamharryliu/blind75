@@ -1,6 +1,9 @@
+from typing import List
+
+
 class Solution:
     @classmethod
-    def maxArea(self, height):
+    def maxArea(self, height: List[int]) -> int:
         left, right, width, maxArea = 0, len(height) - 1, len(height) - 1, 0
         for width in range(width, 0, -1):
             if height[left] <= height[right]:
