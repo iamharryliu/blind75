@@ -4,12 +4,17 @@ from typing import List
 class Solution:
     @classmethod
     def maxArea(self, height: List[int]) -> int:
-        left, right, width, maxArea = 0, len(height) - 1, len(height) - 1, 0
-        for width in range(width, 0, -1):
-            if height[left] <= height[right]:
-                maxArea, left = max(maxArea, height[left] * width), left + 1
+        l, r = 0, len(height) - 1
+        maxArea, maxWidth = 0, len(height) - 1
+
+        # iteratively squeeze the width choosing to keep the greater height
+        for width in range(maxWidth, 0, -1):
+            if height[l] <= height[r]:
+                maxArea = max(maxArea, height[l] * width)
+                l += 1
             else:
-                maxArea, right = max(maxArea, height[right] * width), right - 1
+                maxArea = max(maxArea, height[r] * width)
+                r -= 1
         return maxArea
 
 
