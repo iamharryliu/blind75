@@ -5,16 +5,17 @@ class Solution:
     @classmethod
     def maxArea(self, height: List[int]) -> int:
         l, r = 0, len(height) - 1
-        maxArea, maxWidth = 0, len(height) - 1
+        maxArea = 0
 
-        # iteratively squeeze the width choosing to keep the greater height
-        for width in range(maxWidth, 0, -1):
-            if height[l] <= height[r]:
-                maxArea = max(maxArea, height[l] * width)
+        while l < r:
+            width = r-l
+            if height[l] < height[r]:
+                area = width * height[l]
                 l += 1
             else:
-                maxArea = max(maxArea, height[r] * width)
+                area = width * height[r]
                 r -= 1
+            maxArea = max(maxArea, area)
         return maxArea
 
 
