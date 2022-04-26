@@ -6,17 +6,21 @@ class Solution:
         visited = set()
 
         def dfs(r, c, i):
+
+            # base conditions
             if i == len(word):
                 return True
             if (
                 r < 0
                 or c < 0
-                or r >= num_rows
-                or c >= num_cols
+                or r == num_rows
+                or c == num_cols
                 or (r, c) in visited
                 or board[r][c] != word[i]
             ):
                 return False
+
+            # dfs
             visited.add((r, c))
             res = (
                 dfs(r + 1, c, i + 1)
@@ -25,6 +29,7 @@ class Solution:
                 or dfs(r, c - 1, i + 1)
             )
             visited.remove((r, c))
+
             return res
 
         for r in range(num_rows):
@@ -34,7 +39,7 @@ class Solution:
         return False
 
 
-matrix = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]]
+board = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]]
 word = "ABCCED"
-result = Solution.exist(matrix, word)
+result = Solution.exist(board, word)
 print(result)
