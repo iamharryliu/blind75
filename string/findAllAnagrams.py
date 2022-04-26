@@ -14,9 +14,10 @@ class Solution:
         for i, c in enumerate(s):
             s_count[c] = s_count.get(c, 0) + 1
             if i >= len(p):
-                s_count[s[i - len(p)]] -= 1
-                if s_count[s[i - len(p)]] == 0:
-                    s_count.pop(s[i - len(p)])
+                firstChar = s[i - len(p)]
+                s_count[firstChar] -= 1
+                if s_count[firstChar] == 0:
+                    s_count.pop(firstChar)
             if s_count == p_count:
                 res.append(i - len(p) + 1)
         return res
@@ -24,4 +25,3 @@ class Solution:
 
 res = Solution.findAnagrams(s="cbaebabacd", p="abc")
 print(res == [0, 6])
-
