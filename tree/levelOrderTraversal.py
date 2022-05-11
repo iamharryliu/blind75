@@ -8,23 +8,17 @@
 
 class Solution:
     def levelOrder(self, root):
+        q = [root]
         res = []
 
-        # create queue
-        q = collections.deque()
-        q.append(root)
-
-        # loop through queue
         while q:
-            qLen = len(q)
-            level = []
-            for i in range(qLen):
-                node = q.popleft()
-                if node:
-                    level.append(node.val)
-                    q.append(node.left)
-                    q.append(node.right)
-            if level:
-                res.append(level)
+            newQ = []
+            for node in q:
+                if node.left:
+                    newQ.append(node.left)
+                if node.right:
+                    newQ.append(node.right)
+            res.append([n.val for n in q])
+            q = newQ
 
         return res
