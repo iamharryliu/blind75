@@ -5,44 +5,36 @@ from typing import List
 class Solution:
     @classmethod
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        # create q of rotting oranges to begin BFS
+        rotten = set()
         fresh = 0
-        q = deque()
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
-                if grid[r][c] == 1:
-                    fresh += 1
-                if grid[r][c] == 2:
-                    q.append([r, c])
-
         time = 0
         directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-        while q and fresh > 0:
-            for _ in range(len(q)):
-                r, c = q.popleft()
-                # reduce freshness of adjacent oranges
-                for r_direction, c_direction in directions:
-                    next_r, next_c = r + r_direction, c + c_direction
+
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    fresh += 1
+                if grid[i][j] == 2:
+                    rotten.add((i, j))
+
+        while rotten and fresh > 0:
+            newRotten = set()
+            for row, col in rotten:
+                for x, y in directions:
+                    nR = row + x
+                    nC = col + y
                     if (
-                        # check for out of bounds
-                        next_r < 0
-                        or next_c < 0
-                        or len(grid) == next_r
-                        or len(grid[0]) == next_c
-                        # only add to BFS q if cell is a good orange
-                        or grid[next_r][next_c] != 1
+                        0 <= nR < len(grid)
+                        and 0 <= nC < len(grid[0])
+                        and grid[nR][nC] == 1
                     ):
-                        continue
-                    # turn to bad orange, add to BFS q, decrement fresh
-                    grid[next_r][next_c] = 2
-                    q.append([next_r, next_c])
-                    fresh -= 1
-
-            # increment time each BFS
+                        fresh -= 1
+                        grid[nR][nC] = 2
+                        newRotten.add((nR, nC))
             time += 1
+            rotten = newRotten
 
-        # if return -1 if there are still fresh oranges
-        return time if fresh == 0 else -1
+        return time if not fresh else -1
 
 
 res = Solution.orangesRotting([[2, 1, 1], [1, 1, 0], [0, 1, 1]])
