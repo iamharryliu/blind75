@@ -2,7 +2,7 @@ class Solution:
     @classmethod
     def coinChange(self, coins, amount):
         # set array with initial value (amount + 1) which will be used to verify that change can be made from the amount
-        dp = [amount + 1]
+        dp = [amount + 1] * (amount + 1)
         dp[0] = 0
 
         # Loop thought amounts and change
