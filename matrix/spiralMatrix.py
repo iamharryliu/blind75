@@ -2,31 +2,19 @@ class Solution:
     @classmethod
     def spiralOrder(self, matrix):
         res = []
-        top = 0
-        left = 0
-        bottom = len(matrix)
-        right = len(matrix[0])
 
-        while left < right and top < bottom:
+        def dfs(r, c):
+            if 0 <= r < len(matrix) and 0 <= c < len(matrix[0]) and matrix[r][c] != "#":
+                res.append(matrix[r][c])
+                matrix[r][c] = "#"
 
-            for i in range(left, right):
-                res.append(matrix[top][i])
-            top += 1
+                if c + 1 >= r:
+                    dfs(r, c + 1)
+                dfs(r + 1, c)
+                dfs(r, c - 1)
+                dfs(r - 1, c)
 
-            for i in range(top, bottom):
-                res.append(matrix[i][right - 1])
-            right -= 1
-
-            if not (left < right and top < bottom):
-                break
-
-            for i in range(right - 1, left - 1, -1):
-                res.append(matrix[bottom - 1][i])
-            bottom -= 1
-
-            for i in range(bottom - 1, top - 1, -1):
-                res.append(matrix[i][left])
-            left += 1
+        dfs(0, 0)
 
         return res
 
