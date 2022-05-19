@@ -1,32 +1,21 @@
 class Solution:
     @classmethod
     def numIslands(self, grid):
-        if not grid:
-            return 0
+        def dfs(r, c):
+            if 0 <= r < len(grid) and 0 <= c < len(grid[0]) and grid[r][c] == "1":
+                grid[r][c] = "#"
+                dfs(r + 1, c)
+                dfs(r - 1, c)
+                dfs(r, c + 1)
+                dfs(r, c - 1)
 
-        count = 0
-
-        def dfs(grid, x, y):
-            if (
-                x < 0
-                or y < 0
-                or x >= len(grid)
-                or y >= len(grid[0])
-                or grid[x][y] != "1"
-            ):
-                return
-            grid[x][y] = "#"
-            dfs(grid, x + 1, y)
-            dfs(grid, x - 1, y)
-            dfs(grid, x, y + 1)
-            dfs(grid, x, y - 1)
-
+        res = 0
         for x in range(len(grid)):
             for y in range(len(grid[0])):
                 if grid[x][y] == "1":
-                    dfs(grid, x, y)
-                    count += 1
-        return count
+                    res += 1
+                    dfs(x, y)
+        return res
 
 
 res = Solution.numIslands(
@@ -37,4 +26,4 @@ res = Solution.numIslands(
         ["0", "0", "0", "0", "0"],
     ]
 )
-print(res)
+print(res == 1)
