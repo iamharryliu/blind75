@@ -2,24 +2,35 @@ from typing import List
 
 
 class Solution:
+    @classmethod
     def floodFill(
         self, image: List[List[int]], sr: int, sc: int, newColor: int
     ) -> List[List[int]]:
         visited = set()
-        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-        initialColor = image[sr][sc]
+        oldColor = image[sr][sc]
 
         def dfs(r, c):
             if (
-                0 <= r < len(image)
-                and 0 <= c < len(image[0])
-                and (r, c) not in visited
-                and image[r][c] == initialColor
+                r < 0
+                or c < 0
+                or r == len(image)
+                or c == len(image[0])
+                or image[r][c] != oldColor
+                or (r, c) in visited
             ):
-                visited.add((r, c))
-                image[r][c] = newColor
-                for x, y in directions:
-                    dfs(r + x, c + y)
+                return
+            visited.add((r, c))
+            image[r][c] = newColor
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
 
         dfs(sr, sc)
         return image
+
+
+print(
+    Solution.floodFill(image=[[1, 1, 1], [1, 1, 0], [1, 0, 1]], sr=1, sc=1, newColor=2)
+    == [[2, 2, 2], [2, 2, 0], [2, 0, 1]]
+)
