@@ -13,17 +13,13 @@ class Solution:
         for ll in lists:
             while ll:
                 heapq.heappush(heap, ll.val)
+                ll = ll.next
 
-        sortedList = []
+        root = ListNode(heapq.heappop(heap)) if heap else None
+        curr = root
         while heap:
-            sortedList.append(heapq.heappop(heap))
-
-        root = ListNode(sortedList[0]) if sortedList[0] else None
-        if sortedList:
-            curr = root
-            for num in sortedList[1:]:
-                curr.next = ListNode(num)
-                curr = curr.next
+            val = heapq.heappop(heap)
+            curr.next = ListNode(val)
+            curr = curr.next
 
         return root
-
