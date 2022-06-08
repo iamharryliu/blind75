@@ -22,3 +22,21 @@ class Solution:
 
         dfs(root)
         return res
+
+        # Alternate solution
+        # if not root:
+        #     return True
+
+        # def height(root):
+        #     if not root:
+        #         return 0
+        #     return 1 + max(height(root.left), height(root.right))
+
+        # left = height(root.left)
+        # right = height(root.right)
+
+        # return (
+        #     abs(left - right) < 2
+        #     and self.isBalanced(root.left)
+        #     and self.isBalanced(root.right)
+        # )
