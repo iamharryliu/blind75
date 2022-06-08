@@ -7,14 +7,16 @@ class Solution:
             hmap[c] = hmap.get(c, 0) + 1
 
         res = 0
-        max_odd = 0
-        for k, v in hmap.items():
+        foundOdd = False
+        for _, v in hmap.items():
             if v % 2 == 0:
                 res += v
-            else:
-                max_odd = max(max_odd, v)
-
-        return res + max_odd
+            if v % 2 == 1 and foundOdd:
+                res += v - 1
+            if v % 2 == 1 and not foundOdd:
+                res += v
+                foundOdd = True
+        return res
 
 
 print(Solution.longestPalindrome(s="abccccdd") == 7)
