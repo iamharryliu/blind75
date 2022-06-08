@@ -1,3 +1,4 @@
+from turtle import reset
 from typing import Optional
 
 # Definition for a binary tree node.
@@ -14,20 +15,30 @@ class Solution:
 
         def dfs(root):
             nonlocal res
-
-            # dfs base case
             if not root:
                 return 0
-
-            # dfs
             left = dfs(root.left)
             right = dfs(root.right)
-
-            # update result
             res = max(res, left + right)
-
-            # return dfs value
             return max(left, right) + 1
 
         dfs(root)
         return res
+
+        # Alternate solution
+        if not root:
+            return 0
+
+        def height(root):
+            if not root:
+                return 0
+            return 1 + max(height(root.left), height(root.right))
+
+        left = height(root.left)
+        right = height(root.right)
+
+        return max(
+            left + right,
+            self.diameterOfBinaryTree(root.left),
+            self.diameterOfBinaryTree(root.right),
+        )
