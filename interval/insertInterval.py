@@ -10,30 +10,29 @@ class Solution:
         res = []
 
         for i, interval in enumerate(intervals):
-
-            # new interval less than interval
             if newInterval[1] < interval[0]:
                 res.append(newInterval)
                 return res + intervals[i:]
-
-            # new interval greater than interval
             elif interval[1] < newInterval[0]:
                 res.append(interval)
-
-            # new interval overlaps current interval
             else:
-                newMin = min(newInterval[0], interval[0])
-                newMax = max(newInterval[1], interval[1])
-                newInterval = [newMin, newMax]
+                newInterval = [
+                    min(newInterval[0], interval[0]),
+                    max(newInterval[1], interval[1]),
+                ]
 
         res.append(newInterval)
-
         return res
 
 
 intervals = [[1, 3], [6, 9]]
 newInterval = [2, 5]
+output = [[1, 5], [6, 9]]
 res = Solution.insert(intervals, newInterval)
-print(res)
-print(res == [[1, 5], [6, 9]])
+print(res == output)
 
+intervals = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]
+newInterval = [4, 8]
+output = [[1, 2], [3, 10], [12, 16]]
+res = Solution.insert(intervals, newInterval)
+print(res == output)
