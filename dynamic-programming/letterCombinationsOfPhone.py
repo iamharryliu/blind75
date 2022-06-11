@@ -4,7 +4,6 @@ from typing import List
 class Solution:
     @classmethod
     def letterCombinations(self, digits: str) -> List[str]:
-        res = []
         hmap = {
             "2": "abc",
             "3": "def",
@@ -15,6 +14,7 @@ class Solution:
             "8": "tuv",
             "9": "wxyz",
         }
+        res = []
 
         def dfs(i, word):
             if len(word) == len(digits):
@@ -28,7 +28,17 @@ class Solution:
         return res
 
 
-print(
-    Solution.letterCombinations("23")
-    == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
-)
+digits = "23"
+output = ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+res = Solution.letterCombinations(digits)
+print(res == output)
+
+digits = ""
+output = []
+res = Solution.letterCombinations(digits)
+print(res == output)
+
+digits = "2"
+output = ["a", "b", "c"]
+res = Solution.letterCombinations(digits)
+print(res == output)
