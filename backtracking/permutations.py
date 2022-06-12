@@ -10,13 +10,11 @@ class Solution:
 
         def backtrack(arr):
             if len(arr) == len(nums):
-                res.append(arr.copy())
+                res.append(arr)
                 return
             for n in nums:
                 if n not in arr:
-                    arr.append(n)
-                    backtrack(arr)
-                    arr.remove(n)
+                    backtrack(arr + [n])
 
         backtrack([])
         return res
