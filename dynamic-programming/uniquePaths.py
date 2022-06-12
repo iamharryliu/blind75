@@ -1,14 +1,23 @@
 class Solution:
     @classmethod
     def uniquePaths(self, m: int, n: int) -> int:
-        row = [1] * n
+        dp = [1] * n
         for _ in range(m - 1):
-            newRow = [1] * n
-            for j in range(n - 2, -1, -1):
-                newRow[j] = newRow[j + 1] + row[j]
-            row = newRow
-        return row[0]
+            new_dp = [1] * n
+            for x in range(n - 2, -1, -1):
+                new_dp[x] = new_dp[x + 1] + dp[x]
+            dp = new_dp
+        return dp[0]
 
 
-print(Solution.uniquePaths(m=3, n=7) == 28)
+m = 3
+n = 7
+output = 28
+res = Solution.uniquePaths(m, n)
+print(res == output)
 
+m = 3
+n = 2
+output = 3
+res = Solution.uniquePaths(m, n)
+print(res == output)
