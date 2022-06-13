@@ -1,4 +1,7 @@
 # Definition for a binary tree node.
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -18,7 +21,7 @@ class Solution:
             r = dfs(node.right)
             if abs(l - r) > 1:
                 res = False
-            return 1 + max(l, r)
+            return max(l, r) + 1
 
         dfs(root)
         return res

@@ -17,10 +17,10 @@ class Solution:
             nonlocal res
             if not root:
                 return 0
-            left = dfs(root.left)
-            right = dfs(root.right)
-            res = max(res, left + right)
-            return max(left, right) + 1
+            l = dfs(root.left)
+            r = dfs(root.right)
+            res = max(res, l + r)
+            return max(l, r) + 1
 
         dfs(root)
         return res

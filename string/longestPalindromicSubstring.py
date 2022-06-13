@@ -3,28 +3,28 @@ class Solution:
     def longestPalindrome(self, s):
         res = ""
 
-        for i in range(len(s)):
-            # odd case, like "aba"
-            tmp = Solution.helper(s, i, i)
-            if len(tmp) > len(res):
-                res = tmp
+        def helper(s, l, r):
+            nonlocal res
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                word = s[l : r + 1]
+                if len(word) > len(res):
+                    res = word
+                l -= 1
+                r += 1
 
-            # even case, like "abba"
-            tmp = Solution.helper(s, i, i + 1)
-            if len(tmp) > len(res):
-                res = tmp
+        for i in range(len(s)):
+            helper(s, i, i)
+            helper(s, i, i + 1)
 
         return res
 
-    # get the longest palindrome, l, r are the middle indexes
-    # from inner to outer
-    @classmethod
-    def helper(self, s, left, right):
-        while left >= 0 and right < len(s) and s[left] == s[right]:
-            left -= 1
-            right += 1
-        return s[left + 1 : right]
 
+s = "babad"
+output = "bab"
+res = Solution.longestPalindrome(s)
+print(res == output)
 
-result = Solution.longestPalindrome("babad")
-print(result)
+s = "cbbd"
+output = "bb"
+res = Solution.longestPalindrome(s)
+print(res == output)

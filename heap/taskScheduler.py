@@ -6,26 +6,37 @@ from typing import Deque, List
 class Solution:
     @classmethod
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        available_tasks = [-cnt for cnt in Counter(tasks).values()]
-        heapq.heapify(available_tasks)
-
+        heap = [-task for task in Counter(tasks).values()]
+        heapq.heapify(heap)
+        q = Deque()
         time = 0
-        unavailable_tasks = Deque()
-
-        while available_tasks or unavailable_tasks:
+        while heap or q:
             time += 1
-
-            # pop tasks from available and add to unavailable if the count is not
-            if available_tasks:
-                count = heapq.heappop(available_tasks) + 1
-                if count:
-                    unavailable_tasks.append([count, time + n])
-
-            # Shift task back to available heap
-            if unavailable_tasks and unavailable_tasks[0][1] == time:
-                heapq.heappush(available_tasks, unavailable_tasks.popleft()[0])
+            if heap:
+                task = heapq.heappop(heap) + 1
+                if task:
+                    q.append([task, time + n])
+            if q and q[0][1] == time:
+                heapq.heappush(heap, q.popleft()[0])
         return time
 
 
-res = Solution.leastInterval(tasks=["A", "A", "A", "B", "B", "B"], n=2)
-print(res == 8)
+tasks = ["A", "A", "A", "B", "B", "B"]
+n = 2
+res = Solution.leastInterval(tasks, n)
+output = 8
+print(res == output)
+
+
+tasks = ["A", "A", "A", "B", "B", "B"]
+n = 0
+res = Solution.leastInterval(tasks, n)
+output = 6
+print(res == output)
+
+
+tasks = ["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"]
+n = 2
+res = Solution.leastInterval(tasks, n)
+output = 16
+print(res == output)

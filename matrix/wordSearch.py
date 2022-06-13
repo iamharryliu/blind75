@@ -1,39 +1,29 @@
 class Solution:
     @classmethod
     def exist(self, board, word):
-        num_rows = len(board)
-        num_cols = len(board[0])
         visited = set()
 
         def dfs(r, c, i):
-
-            # base conditions
-            if i == len(word):
-                return True
             if (
-                r < 0
-                or c < 0
-                or r == num_rows
-                or c == num_cols
-                or (r, c) in visited
-                or board[r][c] != word[i]
+                0 <= r < len(board)
+                and 0 <= c < len(board[0])
+                and (r, c) not in visited
+                and board[r][c] == word[i]
             ):
-                return False
+                if i == len(word) - 1:
+                    return True
+                visited.add((r, c))
+                res = (
+                    dfs(r + 1, c, i + 1)
+                    or dfs(r - 1, c, i + 1)
+                    or dfs(r, c + 1, i + 1)
+                    or dfs(r, c - 1, i + 1)
+                )
+                visited.remove((r, c))
+                return res
 
-            # dfs
-            visited.add((r, c))
-            res = (
-                dfs(r + 1, c, i + 1)
-                or dfs(r - 1, c, i + 1)
-                or dfs(r, c + 1, i + 1)
-                or dfs(r, c - 1, i + 1)
-            )
-            visited.remove((r, c))
-
-            return res
-
-        for r in range(num_rows):
-            for c in range(num_cols):
+        for r in range(len(board)):
+            for c in range(len(board[0])):
                 if dfs(r, c, 0):
                     return True
         return False
@@ -41,5 +31,18 @@ class Solution:
 
 board = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]]
 word = "ABCCED"
-result = Solution.exist(board, word)
-print(result)
+output = True
+res = Solution.exist(board, word)
+print(res == output)
+
+board = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]]
+word = "SEE"
+output = True
+res = Solution.exist(board, word)
+print(res == output)
+
+board = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]]
+word = "ABCB"
+output = False
+res = Solution.exist(board, word)
+print(res == output)

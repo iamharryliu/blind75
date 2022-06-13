@@ -1,15 +1,16 @@
+from typing import List
+
+
 class Solution:
     @classmethod
-    def threeSum(self, nums):
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
         res = []
         nums.sort()
         for i, num in enumerate(nums):
-
-            if i > 0 and num == nums[i - 1]:  # skip index if same as previous number
+            if i > 0 and num == nums[i - 1]:  # skip index
                 continue
-
-            l, r = i + 1, len(nums) - 1
-
+            l = i + 1
+            r = len(nums) - 1
             while l < r:
                 three_sum = num + nums[l] + nums[r]
                 if three_sum < 0:
@@ -19,12 +20,22 @@ class Solution:
                 if three_sum == 0:
                     res.append((num, nums[l], nums[r]))
                     l += 1
-                    while l < r and nums[l] == nums[l - 1]:  # skip similar l values
+                    while l < r and nums[l] == nums[l - 1]:  # skip index
                         l += 1
-
         return res
 
 
-test_value = [-1, -1, 0, 1, 2, -1, -4]
-result = Solution.threeSum(test_value) == [(-1, -1, 2), (-1, 0, 1)]
-print(result)
+nums = [-1, -1, 0, 1, 2, -1, -4]
+output = [(-1, -1, 2), (-1, 0, 1)]
+res = Solution.threeSum(nums)
+print(res == output)
+
+nums = []
+output = []
+res = Solution.threeSum(nums)
+print(res == output)
+
+nums = [0]
+output = []
+res = Solution.threeSum(nums)
+print(res == output)
