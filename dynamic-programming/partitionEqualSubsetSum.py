@@ -1,18 +1,32 @@
+from functools import cache
 from typing import List
 
 
 class Solution:
+    @classmethod
     def canPartition(self, nums: List[int]) -> bool:
         if sum(nums) % 2:
             return False
-        dp = set([0])
         target = sum(nums) // 2
 
-        for num in nums:
-            new_dp = set()
-            for p_sum in dp:
-                new_dp.add(p_sum + num)
-                new_dp.add(p_sum)
-            dp = new_dp
+        @cache
+        def dfs(i, s):
+            if s == target:
+                return True
+            if i == len(nums) or s > target:
+                return False
+            return dfs(i + 1, s) or dfs(i + 1, s + nums[i])
 
-        return target in dp
+        return dfs(0, 0)
+
+
+nums = [1, 5, 11, 5]
+output = True
+res = Solution.canPartition(nums)
+print(res == output)
+
+
+nums = [1, 2, 3, 5]
+output = True
+res = Solution.canPartition(nums)
+print(res == output)
