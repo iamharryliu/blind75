@@ -10,13 +10,11 @@ class Solution:
     @classmethod
     def isSameTree(self, p, q):
         if p and q:
-            # check that node and left and right nodes are the same
             return (
                 p.val == q.val
                 and self.isSameTree(p.left, q.left)
                 and self.isSameTree(p.right, q.right)
             )
-        # handles None scenarios
         return p is q
 
 
