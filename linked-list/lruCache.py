@@ -9,40 +9,44 @@ class Node:
 class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.cache = {}
+        self.hmap = {}
         self.head = Node(0, 0)
         self.tail = Node(0, 0)
         self.head.next = self.tail
         self.tail.prev = self.head
 
+    def insert(self, node):
+        prv = self.tail.prev
+        nxt = self.tail
+        prv.next, nxt.prev = node, node
+        node.prev, node.next = prv, nxt
+
     def remove(self, node):
         prev = node.prev
         nxt = node.next
-        prev.next, nxt.prev = nxt, prev
-
-    def insert(self, node):
-        prev, nxt = self.tail.prev, self.tail
-        prev.next = nxt.prev = node
-        node.next, node.prev = nxt, prev
+        prev.next = nxt
+        nxt.prev = prev
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            self.remove(self.cache[key])
-            self.insert(self.cache[key])
-            return self.cache[key].val
+        if key in self.hmap:
+            node = self.hmap[key]
+            self.remove(node)
+            self.insert(node)
+            return node.val
         return -1
 
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            self.remove(self.cache[key])
+        if key in self.hmap:
+            node = self.hmap[key]
+            self.remove(node)
         node = Node(key, value)
-        self.cache[key] = node
+        self.hmap[key] = node
         self.insert(node)
 
-        if len(self.cache) > self.capacity:
-            lru = self.head.next
-            self.remove(lru)
-            del self.cache[lru.key]
+        if len(self.hmap) > self.capacity:
+            node = self.head.next
+            self.remove(node)
+            del self.hmap[node.key]
 
 
 # Your LRUCache object will be instantiated and called as such:
