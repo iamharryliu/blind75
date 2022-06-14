@@ -1,29 +1,32 @@
+from typing import List
+
+
 class Solution:
     @classmethod
-    def jobScheduling(self, startTime, endTime, profit):
-        lst = sorted(zip(startTime, endTime, profit), key=lambda x: x[1])
+    def jobScheduling(
+        self, startTime: List[int], endTime: List[int], profit: List[int]
+    ) -> int:
+        l = sorted(zip(startTime, endTime, profit), key=lambda x: x[1])
         dp = [[0, 0]]
 
-        def b_search(c_start):
+        def find_pp(s):
             l, r = 0, len(dp) - 1
 
             while l <= r:
                 m = (l + r) // 2
-                p_end_time = dp[m][0]
-                if p_end_time <= c_start:
+                e = dp[m][0]
+                if e <= s:
                     l = m + 1
                 else:
                     r = m - 1
-            return l - 1
+            return dp[l - 1][1]
 
-        for start, end, profit in lst:
-            i = b_search(start)
-            p_profit = dp[-1][1]
-            c_profit = dp[i][1] + profit
-            if c_profit > p_profit:
-                dp.append([end, c_profit])
-        max_profit = dp[-1][1]
-        return max_profit
+        for s, e, p in l:
+            pp = dp[-1][1]
+            cp = find_pp(s) + p
+            if cp > pp:
+                dp.append([e, cp])
+        return dp[-1][1]
 
 
 print(
