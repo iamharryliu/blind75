@@ -1,19 +1,34 @@
+from typing import List
+
+
 class Solution:
+    @classmethod
     def trap(self, height: List[int]) -> int:
         l = 0
         r = len(height) - 1
-        lMax = height[l]
-        rMax = height[r]
+        lmax = height[l]
+        rmax = height[r]
         res = 0
 
         while l < r:
-            if lMax < rMax:
+            if lmax < rmax:
                 l += 1
-                lMax = max(lMax, height[l])
-                res += lMax - height[l]
+                lmax = max(lmax, height[l])
+                res += lmax - height[l]
             else:
                 r -= 1
-                rMax = max(rMax, height[r])
-                res += rMax - height[r]
+                rmax = max(rmax, height[r])
+                res += rmax - height[r]
 
         return res
+
+
+height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+output = 6
+res = Solution.trap(height)
+print(res == output)
+
+height = [4, 2, 0, 3, 2, 5]
+output = 9
+res = Solution.trap(height)
+print(res == output)
