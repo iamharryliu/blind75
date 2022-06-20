@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+    @classmethod
     def largestRectangleArea(self, heights: List[int]) -> int:
         stack = []
         res = 0
@@ -15,7 +16,18 @@ class Solution:
             stack.append((start, h))
 
         while stack:
-            index, height = stack.pop()
-            res = max(res, height * (len(heights) - index))
+            pi, ph = stack.pop()
+            res = max(res, ph * (len(heights) - pi))
 
         return res
+
+
+heights = [2, 1, 5, 6, 2, 3]
+output = 10
+res = Solution.largestRectangleArea(heights)
+print(res == output)
+
+heights = [2, 4]
+output = 4
+res = Solution.largestRectangleArea(heights)
+print(res == output)
