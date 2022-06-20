@@ -5,10 +5,10 @@ from typing import List
 class Solution:
     @classmethod
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        adj_list = defaultdict(list)
+        graph = defaultdict(list)
         for word in wordList + [beginWord]:
             for i in range(len(word)):
-                adj_list[word[0:i] + "*" + word[i + 1 :]].append(word)
+                graph[word[0:i] + "*" + word[i + 1 :]].append(word)
 
         q = [beginWord]
         visited = set()
@@ -21,28 +21,25 @@ class Solution:
                 if word == endWord:
                     return res
                 for i in range(len(word)):
-                    x = word[0:i] + "*" + word[i + 1 :]
-                    for newWord in adj_list[x]:
-                        if newWord not in visited:
-                            new_q.append(newWord)
-                            visited.add(newWord)
-                    visited.add(x)
+                    key = word[0:i] + "*" + word[i + 1 :]
+                    if key in visited:
+                        continue
+                    new_q += graph[key]
+                    visited.add(key)
             q = new_q
         return 0
 
 
-print(
-    Solution.ladderLength(
-        beginWord="hit",
-        endWord="cog",
-        wordList=["hot", "dot", "dog", "lot", "log", "cog"],
-    )
-    == 5
-)
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot", "dot", "dog", "lot", "log", "cog"]
+output = 5
+res = Solution.ladderLength(beginWord, endWord, wordList)
+print(res == output)
 
-print(
-    Solution.ladderLength(
-        beginWord="hit", endWord="cog", wordList=["hot", "dot", "dog", "lot", "log"]
-    )
-    == 0
-)
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot", "dot", "dog", "lot", "log"]
+output = 0
+res = Solution.ladderLength(beginWord, endWord, wordList)
+print(res == output)
