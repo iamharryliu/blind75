@@ -1,18 +1,18 @@
 class Solution:
     @classmethod
     def maxProduct(self, nums):
-        result = max(nums)
-        currentMin, currentMax = 1, 1
+        res = max(nums)
+        cmin, cmax = 1, 1
 
-        for n in nums:
-            if n == 0:
-                currentMin, currentMax = 1, 1
+        for num in nums:
+            if num == 0:
+                cmin, cmax = 1, 1
                 continue
-            temp = currentMax * n
-            currentMax = max(n * currentMax, n * currentMin, n)
-            currentMin = min(temp, n * currentMin, n)
-            result = max(result, currentMax)
-        return result
+            temp = cmax * num
+            cmax = max(temp, num * cmin, num)
+            cmin = min(temp, num * cmin, num)
+            res = max(res, cmax)
+        return res
 
 
 result = Solution.maxProduct([2, 3, -2, 4])

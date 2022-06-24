@@ -2,21 +2,22 @@ class Solution:
     @classmethod
     def calculate(self, s: str) -> int:
         total = 0
-        i, signs = 0, [1, 1]
+        i = 0
+        stack = [1, 1]
         while i < len(s):
             c = s[i]
             if c.isdigit():
-                start = i
+                l = i
                 while i < len(s) and s[i].isdigit():
                     i += 1
-                total += signs.pop() * int(s[start:i])
+                total += stack.pop() * int(s[l:i])
                 continue
             if c in "+(":
-                signs.append(signs[-1] * 1)
+                stack.append(stack[-1])
             if c is "-":
-                signs.append(signs[-1] * -1)
+                stack.append(-stack[-1])
             elif c == ")":
-                signs.pop()
+                stack.pop()
             i += 1
         return total
 
