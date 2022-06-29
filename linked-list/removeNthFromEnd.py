@@ -9,23 +9,35 @@ class Solution:
     @classmethod
     def removeNthFromEnd(self, head, n):
         slow = fast = head
-
-        # advance fast n nodes
         for _ in range(n):
             fast = fast.next
-
-        # this covers the case of [] -> None, [n] -> None, [n1, n2]
+        # edge case to remove the first node of the LL
         if not fast:
             return head.next
-
-        # advance fast and slow nodes
         while fast.next:
             fast = fast.next
             slow = slow.next
-
-        # skip n node
         slow.next = slow.next.next
+        return head
 
+        # non-optimal answer that requires counting the LL then cutting off the node
+        curr = head
+        length = 1
+        while curr and curr.next:
+            length += 1
+            curr = curr.next
+
+        if length == n:
+            return head.next
+
+        if length == 1:
+            return None
+
+        curr = head
+        for _ in range(length - n - 1):
+            curr = curr.next
+
+        curr.next = curr.next.next
         return head
 
 

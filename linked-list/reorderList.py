@@ -1,4 +1,7 @@
 # Definition for singly-linked list.
+from typing import Optional
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -7,30 +10,34 @@ class ListNode:
 
 class Solution:
     @classmethod
-    def reorderList(self, head):
-        # step 1: find middle
-        slow, fast = head, head
-        while fast.next and fast.next.next:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+
+        slow = head
+        fast = head.next
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
 
-        # step 2: reverse second half
-        previous, head2 = None, slow.next
-        while head2:
-            current = head2
-            head2 = head2.next
-            current.next = previous
-            previous = current
-        # remove cycle
+        prev = None
+        curr = slow.next
+        while curr:
+            tmp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = tmp
+
         slow.next = None
 
-        # #step 3: merge lists
-        head1, head2 = head, previous
-        while head2:
-            nextNode = head1.next
-            head1.next = head2
-            head1 = head2
-            head2 = nextNode
+        l1 = head
+        l2 = prev
+        while l2:
+            next_l2 = l1.next
+            l1.next = l2
+            l1 = l2
+            l2 = next_l2
 
 
 node1 = ListNode(1)
