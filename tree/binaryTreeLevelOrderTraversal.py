@@ -22,3 +22,19 @@ class Solution:
             q = newQ
 
         return res
+
+        # using deque
+        if not root:
+            return None
+        res = []
+        q = deque([root])
+        while q:
+            res.append([node.val for node in q])
+            for _ in range(len(q)):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+
+        return res

@@ -4,29 +4,28 @@ from typing import List
 class Solution:
     @classmethod
     def floodFill(
-        self, image: List[List[int]], sr: int, sc: int, newColor: int
+        self, image: List[List[int]], sr: int, sc: int, color: int
     ) -> List[List[int]]:
+        old_color = image[sr][sc]
         visited = set()
-        oldColor = image[sr][sc]
+        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
         def dfs(r, c):
-            if (
-                r < 0
-                or c < 0
-                or r == len(image)
-                or c == len(image[0])
-                or image[r][c] != oldColor
-                or (r, c) in visited
-            ):
-                return
-            visited.add((r, c))
-            image[r][c] = newColor
-            dfs(r + 1, c)
-            dfs(r - 1, c)
-            dfs(r, c + 1)
-            dfs(r, c - 1)
+            image[r][c] = color
+            for x, y in directions:
+                nr = r + x
+                nc = c + y
+                if (
+                    0 <= nr < len(image)
+                    and 0 <= nc < len(image[0])
+                    and (nr, nc) not in visited
+                    and image[nr][nc] == old_color
+                ):
+                    visited.add((nr, nc))
+                    dfs(nr, nc)
 
         dfs(sr, sc)
+
         return image
 
 

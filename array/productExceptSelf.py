@@ -1,20 +1,17 @@
 class Solution:
     @classmethod
     def productExceptSelf(self, nums):
-
-        # Product numbers before element
+        res = [1] * len(nums)
         p = 1
-        output = []
-        for num in nums:
-            output.append(p)
-            p = p * num
+        for i in range(len(nums)):
+            res[i] *= p
+            p *= nums[i]
 
-        # Product of numbers after element
         p = 1
         for i in range(len(nums) - 1, -1, -1):
-            output[i] = output[i] * p
+            res[i] *= p
             p *= nums[i]
-        return output
+        return res
 
 
 nums = [1, 2, 3, 4, 5]

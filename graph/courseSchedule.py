@@ -11,18 +11,19 @@ class Solution:
 
         def dfs(course):
             if course in visited:
-                return False
-            if graph[course] == []:
                 return True
+            if graph[course] == []:
+                return False
             visited.add(course)
             for pre in graph[course]:
-                if not dfs(pre):
-                    return False
+                if dfs(pre):
+                    return True
+            visited.remove(course)
             graph[course] = []
-            return True
+            return False
 
         for course in range(numCourses):
-            if not dfs(course):
+            if dfs(course):
                 return False
         return True
 
