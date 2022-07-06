@@ -10,23 +10,20 @@ class Solution:
             for i in range(len(word)):
                 graph[word[0:i] + "*" + word[i + 1 :]].append(word)
 
-        q = [beginWord]
+        q = deque([beginWord])
         visited = set()
         res = 0
-
         while q:
             res += 1
-            new_q = []
-            for word in q:
+            for _ in range(len(q)):
+                word = q.popleft()
                 if word == endWord:
                     return res
                 for i in range(len(word)):
                     key = word[0:i] + "*" + word[i + 1 :]
-                    if key in visited:
-                        continue
-                    new_q += graph[key]
-                    visited.add(key)
-            q = new_q
+                    if key not in visited:
+                        q += graph[key]
+                        visited.add(key)
         return 0
 
 
