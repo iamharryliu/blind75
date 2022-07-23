@@ -1,25 +1,40 @@
 class Solution:
     @classmethod
     def calculate(self, s: str) -> int:
-        total = 0
-        i = 0
         stack = [1, 1]
+        res = 0
+        i = 0
         while i < len(s):
-            c = s[i]
-            if c.isdigit():
-                l = i
+            if s[i].isdigit():
+                curr = ""
                 while i < len(s) and s[i].isdigit():
+                    curr += s[i]
                     i += 1
-                total += stack.pop() * int(s[l:i])
-                continue
-            if c in "+(":
-                stack.append(stack[-1])
-            if c is "-":
-                stack.append(-stack[-1])
-            elif c == ")":
-                stack.pop()
-            i += 1
-        return total
+                res += stack.pop() * int(curr)
+            else:
+                if s[i] in "+(":
+                    stack.append(stack[-1])
+                if s[i] == "-":
+                    stack.append(-stack[-1])
+                if s[i] == ")":
+                    stack.pop()
+                i += 1
+        return res
 
 
-Solution.calculate("(1+(4+545+2)-3)+(6+8)")
+s = "1 + 1"
+output = 2
+res = Solution.calculate(s)
+print(res == output)
+
+
+s = " 2-1 + 2 "
+output = 3
+res = Solution.calculate(s)
+print(res == output)
+
+
+s = "(1+(4+5+2)-3)+(6+8)"
+output = 23
+res = Solution.calculate(s)
+print(res == output)
