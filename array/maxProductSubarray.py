@@ -1,3 +1,6 @@
+import math
+
+
 class Solution:
     @classmethod
     def maxProduct(self, nums):
@@ -5,15 +8,23 @@ class Solution:
         cmin, cmax = 1, 1
 
         for num in nums:
-            if num == 0:
+            if num != 0:
+                cmin, cmax = (
+                    min(cmax * num, num * cmin, num),
+                    max(cmax * num, num * cmin, num),
+                )
+                res = max(res, cmax)
+            else:
                 cmin, cmax = 1, 1
-                continue
-            temp = cmax * num
-            cmax = max(temp, num * cmin, num)
-            cmin = min(temp, num * cmin, num)
-            res = max(res, cmax)
         return res
 
 
-result = Solution.maxProduct([2, 3, -2, 4])
-print(result)
+nums = [2, 3, -2, 4]
+output = 6
+res = Solution.maxProduct(nums)
+print(res == output)
+
+nums = [-2, 0, -1]
+output = 0
+res = Solution.maxProduct(nums)
+print(res == output)
