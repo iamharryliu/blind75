@@ -3,18 +3,17 @@ class Solution:
     def longestPalindrome(self, s):
         res = ""
 
-        def helper(s, l, r):
+        def helper(l, r):
             nonlocal res
             while l >= 0 and r < len(s) and s[l] == s[r]:
                 word = s[l : r + 1]
-                if len(word) > len(res):
-                    res = word
+                res = word if len(word) > len(res) else res
                 l -= 1
                 r += 1
 
         for i in range(len(s)):
-            helper(s, i, i)
-            helper(s, i, i + 1)
+            helper(i, i)
+            helper(i, i + 1)
 
         return res
 
